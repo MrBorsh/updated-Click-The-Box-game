@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Click the Box Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Click the Box Game</h1>
+    <p id="timer">Time: 60</p>
+    <div id="game-container">
+        <div id="box" class="blue"></div>
+        <div id="orange-box" class="orange"></div>
+        <div id="golden-box" class="golden"></div>
+    </div>
+    <p id="score">Score: 0</p>
+    <p id="high-score">High Score: 0</p>
+    <button id="start-button">Start Game</button>
+    <div id="scoreboard">
+        <h2>Global High Scores</h2>
+        <ul id="global-scores"></ul>
+    </div>
+    <audio id="click-sound" src="click.mp3"></audio>
+    <audio id="end-sound" src="end.mp3"></audio>
+    <script src="script.js"></script>
+</body>
+</html>
