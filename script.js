@@ -14,6 +14,28 @@ const clickSound = document.getElementById('click-sound');
 const endSound = document.getElementById('end-sound');
 const gameContainer = document.getElementById('game-container');
 
+async function fetchHighScores() {
+    const response = await fetch('/high-scores');
+    const scores = await response.json();
+    const globalScoresList = document.getElementById('global-scores');
+    globalScoresList.innerHTML = '';
+    scores.forEach(score => {
+        const li = document.createElement('li');
+        li.textContent = `${score.name}: ${score.score}`;
+        globalScoresList.appendChild(li);
+    });
+}
+
+async function submitScore(name, score) {
+    await fetch('/submit-score', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, score }),
+    });
+}
+
 function randomPosition() {
     const x = Math.floor(Math.random() * (gameContainer.clientWidth - box.clientWidth));
     const y = Math.floor(Math.random() * (gameContainer.clientHeight - box.clientHeight));
@@ -56,15 +78,18 @@ function startGame() {
     }, 1000);
 }
 
-function endGame() {
+async function endGame() {
     clearInterval(gameInterval);
     startButton.disabled = false;
     box.style.display = 'none';
     orangeBox.style.display = 'none';
     goldenBox.style.display = 'none';
     endSound.play();
-    // Here you would add logic to submit the score to your server
-    // and update the global high scores
+    const playerName = prompt('Game Over! Enter your name:');
+    if (playerName) {
+        await submitScore(playerName, score);
+    }
+    fetchHighScores();
 }
 
 box.addEventListener('click', () => {
@@ -94,3 +119,4 @@ startButton.addEventListener('click', startGame);
 
 moveBox(box);
 moveBox(orangeBox);
+fetchHighScores();
